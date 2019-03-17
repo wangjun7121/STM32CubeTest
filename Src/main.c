@@ -73,6 +73,7 @@ static int siFlag;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	static int iSwitchFlag;
 
   /* USER CODE END 1 */
 
@@ -95,11 +96,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-	
-	// PE5 = ¡¡ 
-	// PE6 = √ 
-	HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_SET);
+
 
   /* USER CODE END 2 */
 
@@ -113,12 +110,34 @@ int main(void)
   /* USER CODE BEGIN 3 */
 	if(siFlag == 0)
 	{
-		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_SET);
+		// PE5 …¡À∏
+		if(iSwitchFlag == 0)
+		{
+			iSwitchFlag = 1;
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_SET);
+		}else{
+			iSwitchFlag = 0;
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_SET);
+		
+		}
+		
 	}else
 	{
-		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_RESET);
+		// PE6 …¡À∏
+		if(iSwitchFlag == 0)
+		{
+			iSwitchFlag = 1;
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_RESET);
+		}else{
+			iSwitchFlag = 0;
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_5,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE,GPIO_PIN_6,GPIO_PIN_SET);
+		
+		}
+		
 		
 	}
 	
@@ -220,7 +239,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 		if(GPIO_Pin == GPIO_PIN_0)
 		{
-			siFlag = 1;		
+			siFlag = ~siFlag;		
 		}
 		
 }

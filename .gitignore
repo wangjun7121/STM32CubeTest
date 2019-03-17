@@ -45,6 +45,7 @@
 *.OBJ
 *.O
 *.SBR
+/MDK-ARM/STM32Cube_LED/*
 
 # Build Files
 *.BAT
